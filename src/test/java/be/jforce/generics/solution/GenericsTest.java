@@ -2,7 +2,6 @@ package be.jforce.generics.solution;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collections;
