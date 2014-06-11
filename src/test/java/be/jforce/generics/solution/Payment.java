@@ -17,7 +17,7 @@ public abstract class Payment {
         return id;
     }
 
-    public static abstract class Builder<P extends Payment, B extends Builder> {
+    public static abstract class Builder<P extends Payment, B extends Builder<P, B>> {
         String id;
         String amount;
 
