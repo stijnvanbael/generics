@@ -31,8 +31,16 @@ public abstract class Payment {
             return self();
         }
 
-        protected abstract B self();
+        @SuppressWarnings("unchecked")
+        protected B self() {
+            return (B) this;
+        }
 
-        public abstract P build();
+        @SuppressWarnings("unchecked")
+        public P build() {
+            return (P) buildInternal();
+        }
+
+        protected abstract Payment buildInternal();
     }
 }

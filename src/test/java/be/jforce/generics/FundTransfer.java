@@ -23,8 +23,8 @@ public class FundTransfer extends Payment {
     }
 
     public static class Builder extends Payment.Builder {
-        private String fromAccount;
-        private String toAccount;
+        String fromAccount;
+        String toAccount;
 
         public Builder fromAccount(String fromAccount) {
             this.fromAccount = fromAccount;

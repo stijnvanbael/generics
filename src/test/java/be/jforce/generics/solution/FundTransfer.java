@@ -18,31 +18,26 @@ public class FundTransfer extends Payment {
         return toAccount;
     }
 
-    public static Builder createBuilder() {
+    public static Builder<?, ?> createBuilder() {
         return new Builder();
     }
 
-    public static class Builder extends Payment.Builder<FundTransfer, Builder> {
-        private String fromAccount;
-        private String toAccount;
+    public static class Builder<P extends FundTransfer, B extends Builder<P, B>> extends Payment.Builder<P, B> {
+        String fromAccount;
+        String toAccount;
 
-        public Builder fromAccount(String fromAccount) {
+        public B fromAccount(String fromAccount) {
             this.fromAccount = fromAccount;
-            return this;
+            return self();
         }
 
-        public Builder toAccount(String toAccount) {
+        public B toAccount(String toAccount) {
             this.toAccount = toAccount;
-            return this;
+            return self();
         }
 
         @Override
-        protected Builder self() {
-            return this;
-        }
-
-        @Override
-        public FundTransfer build() {
+        protected FundTransfer buildInternal() {
             return new FundTransfer(id, fromAccount, toAccount, amount);
         }
     }

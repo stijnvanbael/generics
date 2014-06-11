@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
 public class GenericsTest {
@@ -17,8 +18,11 @@ public class GenericsTest {
     public void genericClass() {
         GenericFactory factory = new FundTransferFactory();
 
-        // TODO: replace cast with generics
-        FundTransfer transfer = (FundTransfer) factory.create("115abc", "1234-5678-9012-3456", "1000-2000-3000-4000", "EUR 15.33");
+        FundTransfer transfer = null;
+        // TODO: make this compile using generics without adding casts
+        // transfer = factory.create("115abc", "1234-5678-9012-3456", "1000-2000-3000-4000", "EUR 15.33");
+
+        assertNotNull(transfer);
         assertThat(transfer.getFromAccount(), is("1234-5678-9012-3456"));
         assertThat(transfer.getToAccount(), is("1000-2000-3000-4000"));
         assertThat(transfer.getAmount(), is("EUR 15.33"));
@@ -30,8 +34,11 @@ public class GenericsTest {
         repository.addPayment(new FundTransfer("115abc", "1234-5678-9012-3456", "1000-2000-3000-4000", "EUR 15.33"));
         repository.addPayment(new GiftCardPayment("116def", "EUR 35.00", "1000345"));
 
-        // TODO: replace casts with generics
-        FundTransfer transfer = (FundTransfer) repository.findWithId("115abc");
+        FundTransfer transfer = null;
+        // TODO: make this compile using generics without adding casts
+        //transfer = repository.findWithId("115abc");
+
+        assertNotNull(transfer);
         assertThat(transfer.getFromAccount(), is("1234-5678-9012-3456"));
         assertThat(transfer.getToAccount(), is("1000-2000-3000-4000"));
         assertThat(transfer.getAmount(), is("EUR 15.33"));
@@ -48,11 +55,13 @@ public class GenericsTest {
                 giftCardPayment,
                 transfer
         );
-        // TODO: use generics to avoid compiler warnings and casts
+
+        // TODO: make this compile using generics without warnings and without adding casts
         Collections.sort(payments, Comparators.on(new Function() {
             @Override
             public Object apply(Object input) {
-                return ((Payment) input).getId();
+                // return input.getId();
+                return 0;
             }
         }));
 
@@ -62,17 +71,42 @@ public class GenericsTest {
 
     @Test
     public void extendableBuilder() {
-        // TODO: replace casts with generics
-        FundTransfer transfer = ((FundTransfer.Builder) ((FundTransfer.Builder) FundTransfer.createBuilder()
-                .id("115abc"))
+        FundTransfer transfer = null;
+        // TODO: make this compile using generics
+        /*
+        transfer = FundTransfer.createBuilder()
+                .id("115abc")
                 .fromAccount("1234-5678-9012-3456")
                 .toAccount("1000-2000-3000-4000")
-                .amount("EUR 15.33"))
+                .amount("EUR 15.33")
                 .build();
+         */
 
+        assertNotNull(transfer);
         assertThat(transfer.getFromAccount(), is("1234-5678-9012-3456"));
         assertThat(transfer.getToAccount(), is("1000-2000-3000-4000"));
         assertThat(transfer.getAmount(), is("EUR 15.33"));
+    }
+
+    @Test
+    public void doubleExtendableBuilder() {
+        ElectronicFundTransfer transfer = null;
+        // TODO: make this compile using generics
+        /*
+        transfer = ElectronicFundTransfer.createBuilder()
+                .id("115abc")
+                .fromAccount("1234-5678-9012-3456")
+                .toAccount("1000-2000-3000-4000")
+                .amount("EUR 15.33")
+                .terminalId("T-121")
+                .build();
+         */
+
+        assertNotNull(transfer);
+        assertThat(transfer.getFromAccount(), is("1234-5678-9012-3456"));
+        assertThat(transfer.getToAccount(), is("1000-2000-3000-4000"));
+        assertThat(transfer.getAmount(), is("EUR 15.33"));
+        assertThat(transfer.getTerminalId(), is("T-121"));
     }
 
     @Test
